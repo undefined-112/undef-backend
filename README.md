@@ -1,7 +1,19 @@
-# Express Starter Project
+# Undef backend
 
-This project includes the packages and babel setup for an express server, and is just meant to make things a little simpler to get up and running with.
+Repo for Undef api
 
-## Getting started
+## Gettings started
+` npm install && npm start `
 
-Install dependencies with `npm install`, then start the server by running `npm run dev`
+## Models
+- User 
+- Admin 
+
+
+## Routes 
+
+- `createuser`
+- `createadmin`
+- `findusers`
+- `userlogin`
+- `adminlogin`
