@@ -1,6 +1,7 @@
 import mongoose from "mongoose"
+import crypto from "crypto"
 
-const User = mongoose.model("User", {
+export const User = mongoose.model("User", {
   username: {
     type: String,
     required: true,
