@@ -7,13 +7,6 @@ Repo for Undef api
 
 ## Models
 - User 
-- Admin 
-
 
 ## Routes 
-
-- `createuser`
-- `createadmin`
-- `findusers`
-- `userlogin`
-- `adminlogin`
+- `users`
