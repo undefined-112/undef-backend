@@ -1,4 +1,5 @@
-const chats = require("./chats")
-const users = require("./users")
+const chats = require('./chats')
+const users = require('./users')
+const user = require('./user')
 
-export { chats, users }
+export { chats, users, user }

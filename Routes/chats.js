@@ -1,10 +1,12 @@
-import express from "express"
-import { Chat } from "../Models/Chat"
+import express from 'express'
+import { Chat } from '../Models/Chat'
+
+import auth from '../lib/auth'
 
 const router = express.Router()
 
 // api/chats
-router.get("/chats", async (req, res) => {
+router.get('/chats', async (req, res) => {
   try {
     const chats = await Chat.find()
 
@@ -14,20 +16,30 @@ router.get("/chats", async (req, res) => {
   }
 })
 
+router.get('/chats/:id', async (req, res) => {
+  console.log(req.params.id)
+  try {
+    const chats = await Chat.find()
+
+    res.json(chats)
+  } catch (error) {
+    console.error(error)
+  }
+})
 // api/chats
-router.post("/chats", async (req, res) => {
+router.post('/chats', async (req, res) => {
   try {
     if (req.body) {
       const { name } = req.body
       // https://mongoosejs.com/docs/models.html
       const chat = await Chat.create({ name })
-      res.json(chat, 201)
+      res.status(201).json(chat)
     } else {
-      throw new Error("No body wtfpr")
+      throw new Error('No body wtfpr')
     }
   } catch (error) {
     console.error(error)
-    res.status(404)
+    res.status(404).json({ message: 'Could not add the chat' })
   }
 })
 
