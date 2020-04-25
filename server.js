@@ -9,16 +9,14 @@ mongoose.Promise = Promise
 
 const port = process.env.PORT || 8080
 const app = express()
-const chatRoute = require('./Routes/chat')
-const userRoute = require('./Routes/user')
-const adminRoute = require('./Routes/admin')
+const chatRoute = require("./Routes/chat")
+const userRoute = require("./Routes/user")
 
 app.use(cors())
 app.use(bodyParser.json())
 //middleware for routes:
-app.use('/chat', chatRoute)
-app.use('/user', userRoute)
-app.use('/admin', adminRoute)
+app.use("/chat", chatRoute)
+app.use("/user", userRoute)
 
 // Home
 app.get("/", (req, res) => {
