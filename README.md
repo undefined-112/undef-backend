@@ -15,8 +15,8 @@ Repo for Undef api
 
 ### Non logged in routes
 
-- register `/register`
-- login `/login`
+- register `/api/registration`
+- login `/api/login`
 - logout `/logout`
 - burn `/burn`
 
