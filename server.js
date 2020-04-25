@@ -9,26 +9,24 @@ mongoose.Promise = Promise
 
 const port = process.env.PORT || 8080
 const app = express()
-const chatRoute = require("./Routes/chat")
-const userRoute = require("./Routes/user")
+
+const routes = require("./Routes")
 
 app.use(cors())
-app.use(bodyParser.json())
-//middleware for routes:
-app.use("/chat", chatRoute)
-app.use("/user", userRoute)
 
-// Home
+//middleware for routes:
+app.use(bodyParser.json())
+app.use("/api", routes.chats)
+app.use("/api", routes.users)
+
 app.get("/", (req, res) => {
   try {
-    console.log("/")
     res.send("Undefined backend")
   } catch (err) {
     res.status(400).json({ messsage: "error", error: err.errors })
   }
 })
 
-// Start the server
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`)
 })
