@@ -1,6 +1,6 @@
 # Undef backend
 
-Repo for Undef api
+Repo for Undef API
 
 ## Gettings started
 
@@ -11,12 +11,15 @@ Repo for Undef api
 - User
 - Chat
 
-## Routes
+## Routes & Methods
+## Confirmed routes and methods
+- register `/api/registration` (POST) => token
+- login `/api/login` (POST) => token
+- __(protected)__ chats `/chats` (GET) => chats []
 
-### Non logged in routes
 
-- register `/api/registration`
-- login `/api/login`
+## To Be Decided (also designed) 
+
 - logout `/logout`
 - burn `/burn`
 
@@ -24,8 +27,5 @@ Repo for Undef api
 > burn is called on your user
 > and all that relates to the user is burned.
 
-#### Protected route
-
-- chats `/chats`
-- chat `/chats/:id/`
-- messages `/chats/:id/messages`
+- **TBD** chat `/chats/:id/` (protected)
+- **TBD** messages `/chats/:id/messages` (protected)
