@@ -1,4 +1,5 @@
-const chats = require('./chats')
-const user = require('./user')
+import register from "./register"
+import login from "./login"
+import chats from "./chats"
 
-export { chats, user }
+export default { register, login, chats }

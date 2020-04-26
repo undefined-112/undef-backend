@@ -6,6 +6,9 @@ Repo for Undef api
 
 `npm install && npm start`
 
+## SSL
+Self signed SSL certificates atm. Need to look into this.
+
 ## Models
 
 - User
