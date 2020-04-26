@@ -18,15 +18,12 @@ router.post('/registration', async (req, res, next) => {
 
 router.post('/login', async (req, res, next) => {
   const { username, password } = req.body
-  console.log('1')
   try {
     const user = await User.findOne({ username: username })
-    console.log('2')
-    console.log(user)
+
     if (user && bcrypt.compareSync(password, user.password)) {
       res.status(200).json(user.accessToken)
     } else {
-      console.log('3')
       res.status(401).json({
         statusCode: 401,
         notFound: true,
