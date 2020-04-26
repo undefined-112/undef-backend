@@ -13,9 +13,9 @@ Repo for Undef API
 
 ## Routes & Methods
 ## Confirmed routes and methods
-- register `/api/registration`
-- login `/api/login`
-- __(protected)__ chats `/chats` 
+- register `/api/registration` (POST) => token
+- login `/api/login` (POST) => token
+- __(protected)__ chats `/chats` (GET) => chats []
 
 
 ## To Be Decided (also designed) 
