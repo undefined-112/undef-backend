@@ -2,8 +2,8 @@ import express from 'express'
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import mongoose from 'mongoose'
-import auth from './lib/auth'
-const routes = require('./Routes')
+import auth from './src/helpers/auth'
+const routes = require('./src/routes')
 
 const mongoUrl = process.env.MONGO_URL || 'mongodb://localhost/undefbackend'
 mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -29,7 +29,6 @@ app.use('/api', routes.user)
 /* Protected routes below */
 app.use(auth)
 app.use('/api', routes.chats)
-app.use('/api', routes.users)
 
 /* */
 app.use((req, res) => {

@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt-nodejs'
 import { Router } from 'express'
-import { User } from '../Models/User'
+import { User } from '../models/user'
 
 const router = Router()
 

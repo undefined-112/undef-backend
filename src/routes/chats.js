@@ -1,7 +1,5 @@
 import express from 'express'
-import { Chat } from '../Models/Chat'
-
-import auth from '../lib/auth'
+import { Chat } from '../models/chat'
 
 const router = express.Router()
 
