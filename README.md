@@ -4,7 +4,7 @@ Repo for Undef API
 
 ## Gettings started
 
-`npm install && npm start`
+`npm install && cd ios && pod install && cd .. && npm start`
 
 ## SSL
 Self signed SSL certificates atm. Need to look into this.
