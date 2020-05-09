@@ -5,10 +5,18 @@ export const Room = mongoose.model('Room', {
   secret: {
     type: String,
     unique: true,
-    default: () => crypto.randomBytes(8).toString('hex'),
+    default: () => crypto.randomBytes(4).toString('hex'),
   },
-  users: {},
-  messages: {},
+  users: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+    },
+  ],
+  // messages: {
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: 'Message',
+  // },
   createdAt: {
     type: Date,
     default: Date.now,
