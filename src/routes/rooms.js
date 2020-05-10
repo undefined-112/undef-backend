@@ -1,59 +1,97 @@
-import express from 'express'
-import { Room } from '../models/Room'
+import express from "express";
+import { Room } from "../models/Room";
+import getUserIDFromToken from "../helpers/getUserIdFromAuth";
 
-const router = express.Router()
+const router = express.Router();
 
-/* Return all rooms */
-router.get('/rooms', async (req, res) => {
+router.get("/rooms", async (req, res) => {
   try {
-    const room = await Room.find()
+    const userId = await getUserIDFromToken(req);
+    const rooms = await Room.find({ users: userId });
+    const modded = rooms.map((room) => {
+      return {
+        _id: room._id,
+        secret: room.secret,
+        createdAt: room.createdAt,
+      };
+    });
 
-    res.json(room)
+    res.status(200).json(modded);
   } catch (error) {
-    console.error(error)
+    console.error(error);
   }
-})
+});
 
-/* Return room based on room ObjectID (not secret!) */
-router.get('/rooms/:id', async (req, res) => {
-  console.log(req.params.id)
+router.post("/rooms", async (req, res) => {
   try {
-    const rooms = await Rooms.find()
+    const userId = await getUserIDFromToken(req);
+    const room = await Room.create({});
+    room.users.addToSet(userId);
+    await room.save();
 
-    res.json(rooms)
+    res
+      .status(201)
+      .json({ _id: room._id, secret: room.secret, createdAt: room.createdAt });
   } catch (error) {
-    console.error(error)
+    console.error(error);
+    res
+      .status(404)
+      .json({ message: `Could not add the room: ${error.message}` });
   }
-})
-/* Create new room or add room (if secret is provided) */
-router.post('/rooms', async (req, res) => {
+});
+
+router.get("/rooms/:id", async (req, res) => {
+  const { id } = req.params;
   try {
-    const { user, secret } = req.body
-    if (!user) throw new Error('No user provided')
+    const fullRoom = await Room.findById(id);
+    const { secret, _id, createdAt } = fullRoom;
 
-    if (secret) {
-      /* Should add user to existing room */
-      const room = await Room.findOne({ secret: secret })
+    res.status(200).json({
+      roomId: _id,
+      secret,
+      createdAt,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(404).json({ message: `Could not find the room` });
+  }
+});
 
-      if (!room) throw new Error(`A room with the secret ${secret} does not exist`)
+router.put("/rooms", async (req, res) => {
+  try {
+    const { secret } = req.body;
+    const userId = await getUserIDFromToken(req);
 
-      room.users.addToSet(user)
-
-      await room.save()
-
-      res.status(200).json(room)
-    } else {
-      /* Should create new room */
-      const room = await Room.create({})
-
-      room.users.addToSet(user)
-      await room.save()
-      res.status(201).json(room)
+    if (!secret) {
+      res.status(404).json({ message: "No secret provided" });
+      throw "No secret provided";
     }
-  } catch (error) {
-    console.error(error)
-    res.status(404).json({ message: `Could not add the room: ${error.message}` })
-  }
-})
 
-module.exports = router
+    const room = await Room.findOne({ secret: secret });
+    room.users.addToSet(userId);
+    await room.save();
+
+    res.status(200).json({
+      secret: room.secret,
+      roomId: room._id,
+      createdAt: room.createdAt,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(404).json({ message: "Noone added nowhere" });
+  }
+});
+
+router.delete("/rooms/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    await Room.findByIdAndDelete(id);
+
+    res.status(204).json({ message: "Deleted room" });
+  } catch (error) {
+    console.error(error);
+    res.status(404).json({ message: "Could not delete" });
+  }
+});
+
+module.exports = router;
