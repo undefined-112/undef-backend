@@ -5,7 +5,8 @@ import app from '../../App.js'
 /* Need to access the database to test like functionality */
 import mongoose from 'mongoose'
 import User from '../../models/User.js'
-const mongoUrl = 'mongodb://localhost/happyThoughtsTest'
+
+const mongoUrl = process.env.MONGO_URL || 'mongodb://127.0.0.1/undefTest'
 
 let server
 const PORT = 3001
