@@ -1,6 +1,6 @@
 import request from 'supertest'
 import 'babel-polyfill' /* For some reason needed for async/await testing */
-import app from '../../app.js'
+import app from '../../App.js'
 
 /* Need to access the database to test like functionality */
 import mongoose from 'mongoose'
@@ -11,7 +11,11 @@ let server
 const PORT = 3001
 
 beforeAll(async () => {
-  mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
+  mongoose.connect(mongoUrl, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+  })
   mongoose.Promise = Promise
 
   await User.deleteMany({})
