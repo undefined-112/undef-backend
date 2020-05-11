@@ -7,6 +7,7 @@ Repo for Undef API
 `npm install && cd ios && pod install && cd .. && npm start`
 
 ## SSL
+
 Self signed SSL certificates atm. Need to look into this.
 
 ## Models
@@ -15,13 +16,15 @@ Self signed SSL certificates atm. Need to look into this.
 - Chat
 
 ## Routes & Methods
+
 ## Confirmed routes and methods
+
 - register `/api/registration` (POST) => token
 - login `/api/login` (POST) => token
-- __(protected)__ chats `/chats` (GET) => chats []
+- **(protected)** rooms `/rooms` (GET) => rooms []
+- **(protected)** rooms `/rooms` (POST) => room
 
-
-## To Be Decided (also designed) 
+## To Be Decided (also designed)
 
 - logout `/logout`
 - burn `/burn`

@@ -1,5 +1,5 @@
-import register from "./register"
-import login from "./login"
-import chats from "./chats"
+import register from './register'
+import login from './login'
+import rooms from './rooms'
 
-export default { register, login, chats }
+export default { register, login, rooms }
