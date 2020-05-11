@@ -24,5 +24,7 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
+      env:
+        MONGO_URL: ${{ secrest.MONGOURL }}
     - run: npm ci
     - run: npm test
