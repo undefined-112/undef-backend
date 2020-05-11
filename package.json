@@ -5,7 +5,12 @@
   "scripts": {
     "start": "babel-node index.js",
     "dev": "nodemon index.js --exec babel-node",
+<<<<<<< HEAD
     "test": "jest --watch"
+=======
+    "test": "jest",
+    "test:watch": "jest --watch"
+>>>>>>> 1627eab6b5282afc4923804638a296c4a2db798e
   },
   "author": "",
   "license": "ISC",

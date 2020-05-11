@@ -6,8 +6,8 @@ const auth = async (req, res, next) => {
     if (!bearerToken) {
       throw new Error("no access token provided")
     }
+    
     const accessToken = bearerToken.split(" ")[1]
-
     const hasToken = await User.findOne({ accessToken })
     if (hasToken) {
       next()
