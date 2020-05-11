@@ -37,7 +37,7 @@ describe('Messages', () => {
   // setup test user token
   it('Able to post a message to room', async () => {
     const testUser = await User.create({
-      username: 'user1',
+      username: 'messenger1',
       password: 'p455w0rd',
     })
 
@@ -64,7 +64,7 @@ describe('Messages', () => {
 
     // 1. Test users to get tokens
     const testUser = await User.create({
-      username: 'user3',
+      username: 'messenger2',
       password: 'p455w0rd',
     })
 
