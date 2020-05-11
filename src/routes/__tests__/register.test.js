@@ -11,8 +11,9 @@ let server
 const PORT = 3001
 
 beforeAll(async () => {
-  mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true })
+  mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
   mongoose.Promise = Promise
+
   await User.deleteMany({})
   server = app.listen(PORT)
 })
