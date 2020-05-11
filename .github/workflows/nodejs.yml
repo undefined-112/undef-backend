@@ -26,3 +26,8 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: npm ci
     - run: npm test
+
+    echo "Hello"
+    printenv MONGO_URL
+
+    
