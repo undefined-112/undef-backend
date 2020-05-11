@@ -12,6 +12,6 @@ mongoose.set('useCreateIndex', true)
 /* Start the server */
 app.listen(port, () =>
   console.log(
-    `Backend running on http://127.0.0.1:${port}, connected to db mongodb://${mongoose.connection.host}:${mongoose.connection.port}/${mongoose.connection.name}`
-  )
+    `Backend running on http://127.0.0.1:${port}, connected to db mongodb://${mongoose.connection.host}:${mongoose.connection.port}/${mongoose.connection.name}`,
+  ),
 )
