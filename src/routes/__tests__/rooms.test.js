@@ -9,6 +9,9 @@ import Room from "../../models/Room.js"
 
 const mongoUrl = process.env.MONGO_URL || "mongodb://127.0.0.1/undefTest"
 
+console.log(process.env.MONGO_URL)
+console.log(mongoUrl)
+
 let server
 let TOKEN = ""
 let TOKEN_ALTERNATIVE = ""
