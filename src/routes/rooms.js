@@ -30,10 +30,14 @@ router.post('/rooms', async (req, res) => {
     room.users.addToSet(userId)
     await room.save()
 
-    res.status(201).json({ _id: room._id, secret: room.secret, createdAt: room.createdAt })
+    res
+      .status(201)
+      .json({ _id: room._id, secret: room.secret, createdAt: room.createdAt })
   } catch (error) {
     console.error(error)
-    res.status(404).json({ message: `Could not add the room: ${error.message}` })
+    res
+      .status(404)
+      .json({ message: `Could not add the room: ${error.message}` })
   }
 })
 
@@ -42,12 +46,13 @@ router.get('/rooms/:id', async (req, res) => {
   const { id } = req.params
   try {
     const fullRoom = await Room.findById(id)
-    const { secret, _id, createdAt } = fullRoom
+    const { secret, _id, createdAt, messages } = fullRoom
 
     res.status(200).json({
       roomId: _id,
       secret,
       createdAt,
+      messages,
     })
   } catch (error) {
     console.error(error)

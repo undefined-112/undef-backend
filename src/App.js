@@ -24,6 +24,7 @@ app.use('/api', routes.login)
 /* Protected routes below */
 app.use(auth)
 app.use('/api', routes.rooms)
+app.use('/api/', routes.messages)
 
 /* */
 app.use((req, res) => {
