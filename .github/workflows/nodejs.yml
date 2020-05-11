@@ -21,17 +21,12 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
+      env:
+        MONGO_URL: ${{ secrets.MONGO_URL }}
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-        
-    - run: echo "Mongo Url before:"
-    - run: printenv MONGO_URL
-      env: # Or as an environment variable
-        MONGO_URL: ${{ secrets.MONGO_URL }}
-    - run: echo "Mongo Url:"
-    - run: printenv MONGO_URL
-  
     - run: npm ci
     - run: npm test
+
     
