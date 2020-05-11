@@ -7,7 +7,7 @@ import mongoose from 'mongoose'
 import User from '../../models/User.js'
 import Room from '../../models/Room.js'
 
-const mongoUrl = 'mongodb://localhost/test'
+const mongoUrl = process.env.MONGO_URL || 'mongodb://127.0.0.1/undefTest'
 
 let server
 let TOKEN = ''
