@@ -1,66 +1,112 @@
-import request from 'supertest'
-import 'babel-polyfill' /* For some reason needed for async/await testing */
-import app from '../../app.js'
+import request from "supertest";
+import "babel-polyfill"; /* For some reason needed for async/await testing */
+import app from "../../app.js";
 
 /* Need to access the database to test like functionality */
-import mongoose from 'mongoose'
-import User from '../../models/User.js'
-import Room from '../../models/Room.js'
-const mongoUrl = 'mongodb://localhost/happyThoughtsTest'
+import mongoose from "mongoose";
+import User from "../../models/User.js";
+import Room from "../../models/Room.js";
+const mongoUrl = "mongodb://localhost/test";
 
-let server
-const PORT = 3001
+let server;
+let TOKEN = "";
+let TOKEN_ALTERNATIVE = "";
+let SECRET = "";
+const PORT = 3001;
 
+// SETUP ALL TEST DATA ETC
 beforeAll(async () => {
-  mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true })
-  mongoose.Promise = Promise
-  await User.deleteMany({})
+  // initial setup
+  mongoose.connect(mongoUrl, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
+  mongoose.Promise = Promise;
+  server = app.listen(PORT);
 
-  server = app.listen(PORT)
-})
+  // setup test user token
+  const testUser = await User.create({
+    username: "user1",
+    password: "p455w0rd",
+  });
 
-beforeEach(async () => {
-  await User.deleteMany({})
-  await Room.deleteMany({})
-})
+  const alternativeUser = await User.create({
+    username: "alternative",
+    password: "p455w0rd",
+  });
 
-afterAll((done) => {
-  mongoose.connection.close()
-  server.close(done)
-})
+  TOKEN = `Bearer ${testUser.accessToken}`;
+  TOKEN_ALTERNATIVE = `Bearer ${alternativeUser.accessToken}`;
+});
 
-describe('rooms routes testing', () => {
-  it('creates a room', async () => {
-    const user = await User.create({ username: 'user1', password: 'pw' })
+// CLEAR ALL
+afterAll(async (done) => {
+  await User.deleteMany({});
+  await Room.deleteMany({});
+  mongoose.connection.close();
+  server.close(done);
+});
 
+// START TESTS
+describe("Rooms CRUD testing", () => {
+  it("Creates a room", async () => {
     await request(server)
-      .post('/api/rooms/')
-      .set('Authorization', 'Bearer ' + user.accessToken)
-      .send({ user: user._id })
-      .expect(201)
-  })
-  it('adds a user to an existing room via secret', async () => {
-    const user1 = await User.create({ username: 'user1', password: 'pw' })
-    const user2 = await User.create({ username: 'user2', password: 'pw' })
+      .post("/api/rooms/")
+      .set("Authorization", TOKEN)
+      .send({})
+      .expect(201);
+  });
 
-    /* Add a user to create a room */
-    const response1 = await request(server)
-      .post('/api/rooms/')
-      .set('Authorization', 'Bearer ' + user1.accessToken)
-      .send({ user: user1._id })
+  it("Gets list of rooms asociated to user", async () => {
+    const response = await request(server)
+      .get("/api/rooms")
+      .set("Authorization", TOKEN);
 
-    /* Add a new user to the room */
-    const response2 = await request(server)
-      .post('/api/rooms/')
-      .set('Authorization', 'Bearer ' + user2.accessToken)
-      .send({
-        user: user2._id,
-        secret: response1.body.secret,
-      })
-      .expect(200)
+    expect(response.status).toBe(200);
+    expect(response.body.length).toBe(1);
 
-    const expected = 2
-    const actual = response2.body.users.length
-    expect(actual).toEqual(expected)
-  })
-})
+    SECRET = response.body[0].secret;
+  });
+
+  it("Able to add user to room", async () => {
+    // get secret from global
+    const response = await request(server)
+      .put("/api/rooms")
+      .send({ secret: SECRET })
+      .set("Authorization", TOKEN_ALTERNATIVE);
+
+    expect(response.body.secret).toBe(SECRET);
+  });
+
+  it("Alt user can see new room in get /rooms endpoint", async () => {
+    const roomResponse = await request(server)
+      .get("/api/rooms")
+      .set("Authorization", TOKEN_ALTERNATIVE);
+
+    const addedToRooms = roomResponse.body.filter(
+      (room) => room.secret === SECRET
+    );
+
+    expect(addedToRooms.length).toBe(1);
+  });
+
+  it("Can delete room by ID", async () => {
+    const first = await request(server)
+      .get("/api/rooms")
+      .set("Authorization", TOKEN_ALTERNATIVE);
+
+    // delete by id
+    const response = await request(server)
+      .delete(`/api/rooms/${first.body[0]._id}`)
+      .set("Authorization", TOKEN_ALTERNATIVE);
+
+    expect(response.status).toBe(204);
+
+    // no more rooms left
+    const second = await request(server)
+      .get("/api/rooms")
+      .set("Authorization", TOKEN_ALTERNATIVE);
+
+    expect(second.body.length).toBe(0);
+  });
+});
