@@ -13,7 +13,7 @@ let server
 let TOKEN = ''
 let TOKEN_ALTERNATIVE = ''
 let SECRET = ''
-const PORT = 3002
+const PORT = 3001
 
 // SETUP ALL TEST DATA ETC
 beforeAll(async () => {
