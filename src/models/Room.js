@@ -13,10 +13,12 @@ export const Room = mongoose.model('Room', {
       ref: 'User',
     },
   ],
-  // messages: {
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   ref: 'Message',
-  // },
+  messages: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Message',
+    },
+  ],
   createdAt: {
     type: Date,
     default: Date.now,
