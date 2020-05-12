@@ -16,7 +16,7 @@ router.get('/rooms/:roomId/messages', async (req, res) => {
 
     res.status(200).json(contents)
   } catch (error) {
-    res.status(404).jons({ message: 'No habla' })
+    res.status(404).json({ message: 'No habla' })
   }
 })
 
