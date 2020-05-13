@@ -5,8 +5,8 @@
   "scripts": {
     "start": "babel-node index.js",
     "dev": "nodemon index.js --exec babel-node",
-    "test": "jest",
-    "test:watch": "jest --watch"
+    "test": "jest --runInBand",
+    "test:watch": "jest --watch --runInBand"
   },
   "author": "",
   "license": "ISC",

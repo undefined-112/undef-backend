@@ -12,7 +12,7 @@ import Message from '../../models/Message'
 const mongoUrl = process.env.MONGO_URL || 'mongodb://127.0.0.1/undefTest'
 
 let server
-const PORT = 3003
+const PORT = 3001
 
 beforeAll(async () => {
   mongoose.connect(mongoUrl, {
